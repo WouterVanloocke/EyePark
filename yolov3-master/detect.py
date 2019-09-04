@@ -11,10 +11,7 @@ import os
 import cv2
 from pathlib import Path
 import shutil
-import stat
-import csv
-import io
-import ast
+
 
 ENDPOINT = "https://westeurope.api.cognitive.microsoft.com"
 # Plaats hier de keys van je subscription
@@ -24,7 +21,6 @@ prediction_resource_id = "/subscriptions/3d325e01-eb54-447a-b415-75dc9f70c03f/re
 
 # Plaats hier de juiste naam van je iteratie
 publish_iteration_name = "Iteration1"
-
 trainer = CustomVisionTrainingClient(training_key, endpoint=ENDPOINT)
 
 # Zoek het object detection domain
@@ -64,9 +60,6 @@ def detect(cfg,
     else:  # darknet format
         _ = load_darknet_weights(model, weights)
 
-    # Fuse Conv2d + BatchNorm2d layers
-    # model.fuse()
-
     # Eval mode
     model.to(device).eval()
 
@@ -87,17 +80,21 @@ def detect(cfg,
         save_images = False
         dataloader = LoadWebcam(img_size=img_size, half=opt.half)
     else:
+        save_img = True
         dataloader = LoadImages(images, img_size=img_size, half=opt.half)
 
     # Get classes and colors
     classes = load_classes(parse_data_cfg(data)['names'])
     colors = [[random.randint(0, 255) for _ in range(3)] for _ in range(len(classes))]
+    #opvragen van de tag id van het custom vision project
     auto_tag = next(filter(lambda t:t.name == "auto", trainer.get_tags(project.id)), None)
     # Run inference
     t0 = time.time()
     for i, (path, img, im0, vid_cap) in enumerate(dataloader):
         t = time.time()
         save_path = str(Path(output) / Path(path).name)
+        foto = cv2.imread(path)
+        h, w = foto.shape[:2]
 
         # Get detections
         img = torch.from_numpy(img).unsqueeze(0).to(device)
@@ -114,66 +111,39 @@ def detect(cfg,
             for c in det[:, -1].unique():
                 n = (det[:, -1] == c).sum()
                 print('%g %ss' % (n, classes[int(c)]), end=', ')
-            with open('C:/Studentenjob/yolov3-master/coordinaten.txt', 'w+') as file:
-                file.write("" + auto_tag.id  + ": [")
+            lijst  = []
             # Draw bounding boxes and labels of detections
             for *xyxy, conf, cls_conf, cls in det:
+                if save_img:  # Add bbox to image
+                    label = '%s %.2f' % (classes[int(cls)], conf)
+                    plot_one_box(xyxy, im0, label=label, color=colors[int(cls)])
+
                 #if save_txt:  # Write to file
                 if int(cls) == 2:  
-                    x1 = float(('{0}').format(*xyxy,))/1920
-                    y1 = float(('{1}').format(*xyxy,))/1080
-                    x2 = float(('{2}').format(*xyxy,))/1920
-                    y2 = float(('{3}').format(*xyxy,))/1080
+                    x1 = float(('{0}').format(*xyxy,))/w
+                    y1 = float(('{1}').format(*xyxy,))/h
+                    x2 = float(('{2}').format(*xyxy,))/w
+                    y2 = float(('{3}').format(*xyxy,))/h
                     breedte = (x2 -x1)
                     hoogte = (y2-y1)
+               
+                    coordinaten = [x1, y1, breedte, hoogte]
+                    kleinelijst = [os.path.basename(path), coordinaten]
+                    lijst.append(kleinelijst)
 
-                    with open('C:/Studentenjob/yolov3-master/coordinaten.txt', 'a') as file:
-                        file.write("(\"" + os.path.basename(path) + "\"" + ',[ ' + str(x1)+ ', ' + str(y1) + ', ' + str(breedte) + ', ' + str(hoogte) + ' ]),')                        
-    
-            with open('C:/Studentenjob/yolov3-master/coordinaten.txt', 'rb+') as file:
-                file.seek(-1,os.SEEK_END)
-                file.truncate()
-            with open('C:/Studentenjob/yolov3-master/coordinaten.txt', 'a') as file:    
-                file.write("]}")
-            base_image_url = Path("C:/Studentenjob/yolov3-master/output/")
+            base_image_url = Path("C:/Studentenjob/yolov3-master/data/samples/")
 
             # Go through the data table above and create the images
             print ("Adding images...")
             tagged_images_with_regions = []
-            f = open('C:/Studentenjob/yolov3-master/coordinaten.txt', "r")
             auto_image_regions = {}
-            for line in f.readlines():
-                # Now we split the file on `x`, since the part before the x will be
-                # the key and the part after the value
-                line = line.split(':')
-                # Take the line parts and strip out the spaces, assigning them to the variables
-                # Once you get a bit more comfortable, this works as well:
-                # key, value = [x.strip() for x in line] 
-                key = line[0].strip()
-                value = line[1].strip()
-                # Now we check if the dictionary contains the key; if so, append the new value,
-                # and if not, make a new list that contains the current value
-                # (For future reference, this is a great place for a defaultdict :)
-                #if key in auto_image_regions:
-                auto_image_regions[key] = [value]
-                # else:
-                #     auto_image_regions[key] = [value]
-                print(auto_image_regions)
-            
-            #lijst = f.readlines()
+            dictitem = {auto_tag.id : lijst}
+            auto_image_regions.update(dictitem)
 
-            #auto_image_regions = {}
-            
-            # auto_image_regions = {
-            #     auto_tag.id : [
-            #         lines
-            #     ]
-            # }              
-                
-            print(auto_image_regions)
             for tag_id in auto_image_regions:
-                for filename in auto_image_regions[tag_id]:
-                    x,y,w,h = auto_image_regions[filename]
+                for filename,[x,y,w,h] in auto_image_regions[tag_id]:
+                    print("filename = " + str(filename))
+                    #x,y,w,h = auto_image_regions[filename]
                     regions = [ Region(tag_id=auto_tag.id, left=x,top=y,width=w,height=h) ]
                     
                     with open(str(base_image_url) + "/" + filename, mode="rb") as image_contents:
@@ -185,11 +155,7 @@ def detect(cfg,
                 print("Image batch upload failed.")
                 for image in upload_result.images:
                     print("Image status: ", image.status)
-                exit(-1)
         
-                # Add bbox to the image
-                label = '%s %.2f' % (classes[int(cls)], conf)
-                plot_one_box(xyxy, im0, label=label, color=colors[int(cls)])
 
         print('Done. (%.3fs)' % (time.time() - t))
 
@@ -218,6 +184,21 @@ def detect(cfg,
 
     print('Done. (%.3fs)' % (time.time() - t0))
 
+    path = "C:/Studentenjob/yolov3-master/data/samples/"
+    path2 = "C:/Studentenjob/yolov3-master/data/finished/"
+    print("we kopiëren alle foto's nu")
+    src_files = os.listdir(path)
+    for file_name in src_files:
+        full_file_name = os.path.join(path, file_name)
+        if os.path.isfile(full_file_name):
+            shutil.copy(full_file_name, path2)
+
+    print("we verwijderen alle foto's nu")
+    for the_file in os.listdir(path):
+        file_path = os.path.join(path, the_file)
+        if os.path.isfile(file_path):
+            os.unlink(file_path)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -226,7 +207,7 @@ if __name__ == '__main__':
     parser.add_argument('--weights', type=str, default='weights/yolov3-spp.weights', help='path to weights file')
     parser.add_argument('--images', type=str, default='data/samples', help='path to images')
     parser.add_argument('--img-size', type=int, default=416, help='inference size (pixels)')
-    parser.add_argument('--conf-thres', type=float, default=0.8, help='object confidence threshold')
+    parser.add_argument('--conf-thres', type=float, default=0.6, help='object confidence threshold')
     parser.add_argument('--nms-thres', type=float, default=0.5, help='iou threshold for non-maximum suppression')
     parser.add_argument('--fourcc', type=str, default='mp4v', help='fourcc output video codec (verify ffmpeg support)')
     parser.add_argument('--output', type=str, default='output', help='specifies the output path for images and videos')

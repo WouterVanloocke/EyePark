@@ -1,20 +1,4 @@
 # Repo-specific GitIgnore ----------------------------------------------------------------------------------------------
-*.jpg
-*.png
-*.bmp
-*.tif
-*.heic
-*.JPG
-*.PNG
-*.TIF
-*.HEIC
-*.mp4
-*.mov
-*.MOV
-*.avi
-*.data
-*.json
-
 *.cfg
 !cfg/yolov3*.cfg
 

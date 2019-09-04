@@ -131,7 +131,7 @@ def detect(cfg,
                     kleinelijst = [os.path.basename(path), coordinaten]
                     lijst.append(kleinelijst)
 
-            base_image_url = Path("C:/Studentenjob/yolov3-master/data/samples/")
+            base_image_url = Path("data/samples/")
 
             # Go through the data table above and create the images
             print ("Adding images...")
@@ -184,8 +184,8 @@ def detect(cfg,
 
     print('Done. (%.3fs)' % (time.time() - t0))
 
-    path = "C:/Studentenjob/yolov3-master/data/samples/"
-    path2 = "C:/Studentenjob/yolov3-master/data/finished/"
+    path = "data/samples/"
+    path2 = "data/finished/"
     print("we kopiëren alle foto's nu")
     src_files = os.listdir(path)
     for file_name in src_files:

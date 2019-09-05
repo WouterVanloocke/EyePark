@@ -7,7 +7,7 @@
 4. pushbericht.py : stuur om het uur een bericht met hoeveel plaatsen er momenteel vrij zijn per parking
 
 /websitecode/ArxusParking bevat alle python code die gepublished moet worden naar een app servcice in Azure
-
+### De verschillende Azure componenten
 ![azurestructuur](websitecode/azurestructuur.PNG)
 
 

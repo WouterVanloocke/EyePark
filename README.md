@@ -8,6 +8,7 @@
 
 /websitecode/ArxusParking bevat alle python code die gepublished moet worden naar een app servcice in Azure
 
+![alt text](https://raw.githubusercontent.com/WouterVanloocke/EyePark/master/websitecode/azurestructuur.png)
 
 /yolov3-master bevat alle code en scripts voor modeluitbreiding binnen Azure
 1. sudo chmod +x packages.sh

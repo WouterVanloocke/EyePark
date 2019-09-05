@@ -1,6 +1,5 @@
 # EyePark
 
-Onnx uitwerking
 
 1. sudo chmod +x packages.sh
 2. sudo ./packages.sh

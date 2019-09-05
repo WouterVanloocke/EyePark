@@ -1,0 +1,48 @@
+﻿{% load static %}
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+        {% load staticfiles %}
+<script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
+        <meta charset="utf-8" />
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css" />
+    <meta name="viewport" content="width=device-width">
+</head>
+<body>
+    {% include 'nav-bar.html' %}
+    <img id="loginfoto" src="/static/images/achtergrond.jpg"/>
+    <div class="logindiv">
+        <section id="loginForm">
+            <form action="." method="post" class="form-horizontal">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_username" class="inlog">Gebruiker</label>
+                    <div class="col-md-10">
+                        {{ form.username }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_password" class="inlog">Wachtwoord</label>
+                    <div class="col-md-10">
+                        {{ form.password }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="hidden" name="next" value="/" />
+                        <input type="submit" value="Log in" class="login"/>
+                    </div>
+                </div>
+                {% if form.errors %}
+                <p class="validation-summary-errors">Log in met een correcte gebruiker en wachtwoord</p>
+                {% endif %}
+            </form>
+        </section>
+    </div>
+    </body>
+</html>
+
+
+

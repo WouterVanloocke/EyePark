@@ -1,0 +1,28 @@
+﻿﻿﻿﻿<header>
+    <div class="navbar">
+        <a href="{% url 'index' %}"><img class="navbar-brand" src="/static/images/indexfoto.png" alt="HomePage"></a>
+        <div class="dropdown">
+           <button class="dropbtn">Camera's</button>
+            <div class="dropdown-content">
+                <a href="{% url 'allecameras' %}">Legende</a>
+                <a href="{% url 'camera1' %}">Camera 1</a>
+                <a href="{% url 'camera2' %}">Camera 2</a>
+            </div>
+        </div>
+         {% if user.is_authenticated %}
+            <a href="{% url 'admin:index' %}">Databank</a>
+            <a href="{% url 'grid' %}">Raster</a>
+         {% else %}
+            <a href="{% url 'login' %}" class="navbar-right adminlogin">Admin Login</a>
+         {% endif %}
+        {% if user.is_authenticated %}
+        <form id="logoutForm" action="/logout/" method="post" class="navbar-right">
+        {% csrf_token %}
+        <ul class="navbar-right">
+            <li><span class="navbar-brand">Welkom {{ user.username }}</span></li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Uitloggen</a></li>
+        </ul>
+        </form>
+        {% endif %}
+    </div>
+</header>

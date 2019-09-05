@@ -1,0 +1,148 @@
+﻿﻿﻿{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    {% block js %}
+      <link rel="manifest" href="/manifest.json" />
+      <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+      <script>
+        //init functie uitvoeren na het laden van de pagina
+        window.addEventListener('load', init, false);
+
+        //automatisch refreshen om een bepaalde tijd
+        //window.setTimeout(function() { location.reload();}, 60000);
+
+        //variabelen uit Django ophalen
+        var bezetteplaatsen = {{bezetteplaatsen}};
+        var aantalvrijplaatsen = {{aantalvrijplaatsen}};
+        var vrijeplaatsen = {{vrijeplaatsen}};
+        var plaatsbezet = {{plaatsbezet}};
+        var statussen = {{statussen}};
+        //status array opslitsen
+        //var splitsing = status.split(',');
+        
+        //functie om achtergrondkleur van beschikbare parkeerplaatsen naar groen aan te passen.
+        function kleur(a, b) {
+          document.getElementById(a).style.fill = 'green';
+          document.getElementById('parking' + a).innerHTML = b
+          }
+
+        //achtergrondkleur naar geel veranderen als er problemen zijn met de camera.
+        function error(a) {
+        document.getElementById(a).style.fill = 'yellow';
+        document.getElementById('parking' + a).innerHTML = "?"
+        }
+
+        function init(){
+          for (i in statussen){
+            //status niet kapot en er zijn lege plaatsen
+            if (statussen[i] == 1 && vrijeplaatsen[i] > 0){
+                kleur(parseInt(i) + 1, vrijeplaatsen[i]);
+              //status niet kapot en er zijn geen lege plekken = niets doen
+            } else if (statussen[i] == 1 && vrijeplaatsen[i] == 0) {
+                     
+            }
+          //status kapot
+          else if(statussen[i] == 0){
+            error(parseInt(i) + 1);  
+          }
+        }
+          //Wanneer er meer parkings zijn getekend dan dat er in de databank zitten => Deze niet laten zien voor gebruikers
+          var el;
+          for(var i = 1; el = document.getElementById(i); i++) {
+                if((i) > vrijeplaatsen.length ) {
+                    el.style.display = 'none';
+                    document.getElementById('parking' + i).style.display = 'none';
+                    }
+                }
+            }
+
+        //donutgrafiek aanmaken
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['bezet', 'vrij'],
+            datasets: [{
+                data: [bezetteplaatsen, aantalvrijplaatsen],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(200, 247, 197, 1)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(38, 166, 91, 1)',
+                ],
+                borderWidth: 1
+            }]
+            },
+            options: {
+                cutoutPercentage: 50,
+                aspectRatio : 1,
+                title: {
+                display: true,
+                    text: 'Plaatsbezetting',
+                }
+            }
+        });
+
+        //tekst middenin donutgrafiek
+        Chart.pluginService.register({
+            beforeDraw: function(chart) {
+                var width = chart.chart.width,
+                    height = chart.chart.height,
+                    ctx = chart.chart.ctx;
+
+                ctx.restore();
+                var fontSize = (height / 130).toFixed(2);
+                ctx.font = fontSize + "em sans-serif";
+                ctx.textBaseline = "middle";
+
+                var text = parseInt((aantalvrijplaatsen/(aantalvrijplaatsen + bezetteplaatsen) * 100)) + "%",
+                textX = Math.round((width - ctx.measureText(text).width) / 2),
+                textY = height / 1.6;
+
+                ctx.fillText(text, textX, textY);
+                ctx.save();
+            }
+        });
+</script>
+{% endblock js %}
+</head>
+{% block kaartje %}
+<body>
+    {% include 'nav-bar.html' %}
+    <!--image en svg-->
+    <img class="HomeImg" src="/static/images/grondplan_subbedrijf-11.jpg">
+        <svg class="HomeSVG">
+            <rect id="1" x="69px" y="195px" rx="9" ry="5" width="25px" height="125px" style="fill:red; opacity: 0.7" />
+            <text id="parking1" x="69px" y="265px" fill="white" font-size="30" font-weight="bold"></text>
+            <rect id="2" x="127px" y="34px" rx="9" ry="5" width="105px" height="34px" style="fill:red; opacity: 0.7" />
+            <text id="parking2" x="170px" y="63px" fill="white" font-size="30" font-weight="bold"></text>
+        </svg>
+
+     <!--donutgrafiek-->
+     <div id="grafiekdiv">
+        <canvas id="myChart"></canvas>
+     </div>
+
+    <!--Tabel voor gemiddeld aantal vrije plaatsen-->
+    <table class="duration" align="center">
+      <tr>
+        <th>Uur</th>
+        <th>vrije plaatsen</th>
+      </tr>
+      {% for tijd, aantalvrijeplaatsen in gemiddeldePlaatsen %}
+      <tr>
+        <td> {{ tijd }}  </td>
+        <td> {{ aantalvrijeplaatsen|floatformat:0 }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+</body>
+{% endblock %}
+</html>

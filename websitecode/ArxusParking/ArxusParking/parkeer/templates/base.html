@@ -1,0 +1,19 @@
+﻿﻿{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>
+      Arxus Parking {% block title %}{% endblock %}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css" /> <!--css file importeren-->
+    <script src="{% static 'js/oneSignal.js' %}"></script>  <!--javascript file voor oneSignal(push notificaties) importeren-->
+  </head>
+  <body>
+    {% block kaartje %}
+    {% endblock %}
+    {% block js %}
+    {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,55 @@
+﻿﻿﻿﻿{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+{% block kaartje %}
+<body>
+     {% include 'nav-bar.html' %}
+    <!--image en svg + grid-->
+    <pre class="xAs">     0       55     110    165     220    275    330    385     440    495    550</pre>
+    <pre class="yAs">
+46
+92
+138
+184
+230
+276
+322
+368
+414
+460</pre>
+    <div class="grid">
+    <img class="gridImg" src="/static/images/grondplan_subbedrijf-11.jpg">
+        <svg class="gridSVG">
+           <rect id="1" x="69px" y="195px" rx="9" ry="5" width="25px" height="125px" style="fill:red; opacity: 0.7" />
+           <text id="parking1" x="69px" y="265px" fill="white" font-size="30" font-weight="bold"></text>
+           <rect id="2" x="127px" y="34px" rx="9" ry="5" width="105px" height="34px" style="fill:red; opacity: 0.7" />
+           <text id="parking2" x="170px" y="63px" fill="white" font-size="30" font-weight="bold"></text>
+        </svg>
+    </div>
+
+    <h2>Vul hier de juiste waarden in:</h2>
+    <form method="post" class="gridForm">
+    {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <button type="submit" class="submit">Verzenden</button>
+    </form>
+    <div class="icons">
+        <h3>Naar boven</h3>
+        <img src="/static/images/camT.png"/>
+        <h3>Naar rechts</h3>
+        <img src="/static/images/camR.png"/>
+        <h3>Naar onder</h3>
+        <img src="/static/images/camB.png"/>
+        <h3>Naar links</h3>
+        <img src="/static/images/camL.png"/>
+    </div>
+</body>
+{% endblock %}
+</html>

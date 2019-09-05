@@ -1,0 +1,442 @@
+body {
+    background-color: rgba(253,253,253,1)
+}
+
+header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    height: 60px;
+    background-color: rgba(240,242,245,1);
+    vertical-align: middle;
+    line-height: 60px;
+}
+
+h1 {
+    color: whitesmoke;
+    vertical-align: middle;
+    margin: 0;
+    margin-left: 10px;
+    text-align: left;
+    width: 95%;
+}
+
+h2 {
+    position: absolute;
+    left: 675px;
+    top: 60px;
+}
+
+body, body * {
+    font-family: Verdana, Tahoma, sans-serif !important;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    top: 0;
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: whitesmoke;
+}
+
+li {
+    float: left;
+    width: 150px;
+    max-width: 50%;
+}
+
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 0;
+        text-decoration: none;
+    }
+
+p {
+    font-size: 1.5em;
+    font-weight: bold;
+    font-family: fantasy;
+    position: absolute;
+}
+
+td {
+    width: 50%;
+}
+
+.HomeSVG {
+    position: absolute;
+    width: 550px;
+    height: 484px;
+    top: 65px;
+}
+
+.cameraSVG {
+    position: absolute;
+    width: 550px;
+    height: 484px;
+    top: 0px;
+}
+
+.gridform {
+    position: absolute;
+    left: 630px;
+    top: 130px;
+}
+
+.HomeImg {
+    z-index: -1;
+    position: absolute;
+    top: 65px;
+}
+
+.duration {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    display: inline-block;
+    top: 65px;
+    left: 650px;
+    position: absolute;
+}
+
+    .duration td, #duration th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    .duration tr:nth-child(even) {
+        background-color: rgba(114,114,114,0.05);
+    }
+
+    .duration tr:nth-child(odd) {
+        background-color: rgba(114,114,114,0.2);
+    }
+
+    .duration th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: rgba(114,114,114,0.6);
+        color: white;
+    }
+
+#grafiekdiv {
+    left: 900px;
+    top: 65px;
+    width: 550px;
+    position: absolute;
+}
+
+#myChart {
+    max-width: 300px;
+    margin: auto
+}
+
+#loginfoto {
+    position: fixed;
+    top: 60px;
+    left: 0px;
+    max-width: 100%;
+    opacity: 0.3;
+    overflow: hidden;
+}
+
+.grid {
+    position: absolute;
+    top: 85px;
+    left: 40px;
+    height: 484px;
+    width: 550px;
+    background-image: repeating-linear-gradient(0deg,transparent,transparent 22px,#000 22px,#000 23px),repeating-linear-gradient(-90deg,transparent,transparent 27px,#000 27px,#000 28px);
+    background-size: 5%;
+}
+
+.in {
+    position: relative;
+    top: 35px;
+    left: 1px;
+}
+
+.gridImg {
+    z-index: -1;
+    position: absolute;
+}
+
+.gridSVG {
+    width: 550px;
+    height: 484px;
+}
+
+.xAs {
+    position: absolute;
+    top: 50px;
+}
+
+.yAs {
+    position: absolute;
+    top: 95px;
+    line-height: 46px
+}
+
+.secucam {
+    position: absolute;
+}
+
+.cameraImg {
+    position: absolute;
+}
+
+.fotometrechthoeken {
+    width: auto;
+    max-height: 90%;
+    position: absolute;
+    top: 70px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 15px;
+    outline: none;
+}
+
+.logindiv {
+    width: 222px;
+    position: absolute;
+    text-align: center;
+    top: 100px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.inlog {
+    font-weight: bold;
+}
+
+.login {
+    background-color: rgba(240,242,245,1);
+    color: black;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+}
+
+    .login:hover {
+        opacity: 0.8;
+    }
+
+.submit {
+    background-color: rgba(240,242,245,1);
+    color: black;
+    padding: 14px 20px;
+    margin: 0;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    width: 50%;
+    float: right;
+}
+
+    .submit:hover {
+        opacity: 0.8;
+    }
+
+/*navbar and dropdown*/
+.navbar {
+    overflow: hidden;
+}
+
+    .navbar a {
+        float: left;
+        font-size: 16px;
+        color: rgba(75,75,75,1);
+        text-align: center;
+        padding: 0 15px;
+        text-decoration: none;
+    }
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+    .dropdown .dropbtn {
+        font-size: 16px;
+        border: none;
+        outline: none;
+        color: rgba(75,75,75,1);
+        padding: 20px 16px;
+        background-color: inherit;
+        font-family: inherit;
+        margin: 0;
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: all 0.5s;
+    }
+
+.dropbtn:after {
+    content: '>';
+    right: -4px;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.dropdown:hover .dropbtn:hover {
+    background-color: rgba(253,253,253,1);
+    padding-right: 24px;
+    padding-left: 8px;
+}
+
+.dropdown:hover .dropbtn:after {
+    opacity: 1;
+    right: 1px;
+    position: absolute;
+    transform: rotateZ(90deg);
+}
+
+.dropdown:hover .dropbtn {
+    background-color: rgba(253,253,253,1);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+    .dropdown-content a {
+        float: none;
+        color: rgba(75,75,75,1);
+        padding: 0px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+    }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.navbar-brand {
+    height: 60px;
+}
+
+.navbar-right {
+    float: right !important;
+}
+
+.navbar-left {
+    float: left !important;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+.icons {
+    position: absolute;
+    top: 120px;
+    left: 1200px;
+    display: inline
+}
+
+/*Rules for screens smaller than 768px*/
+@media screen and (max-width: 768px) {
+    .duration {
+        top: 875px;
+        left: unset;
+        margin-left: 125px;
+        width: 100%;
+    }
+
+    /*.dropdown .dropbtn {
+        font-size: 14px;
+    }
+
+    .dropdown-content {
+        min-width: 16%;
+        overflow: hidden;
+    }
+
+    .dropdown-content a{
+        min-width: 16%;
+    }
+
+    .navbar a {
+        max-width: 16%;
+        font-size: 14px;
+    }*/
+
+    #grafiekdiv {
+        left: 0;
+        top: 565px;
+    }
+
+    header {
+        width: 550px;
+        right: 0;
+    }
+
+    img, svg {
+        left: 0;
+        max-width: 550px;
+    }
+
+    .adminlogin {
+        display: none;
+    }
+
+    .dropdown {
+        float: right;
+        padding-right: 15px;
+    }
+}

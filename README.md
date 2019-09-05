@@ -9,7 +9,10 @@ __bevat alle scripts die als webjob moeten draaien binnen de app service in Azur
 
 ## /websitecode
 __ArxusParking bevat alle python code die gepublished moet worden naar een app servcice in Azure__
-### De verschillende Azure componenten
+1. Gemaakt in Django
+2. Inclusief Web Deployment scripts
+
+## De verschillende Azure componenten
 ![azurestructuur](websitecode/azurestructuur.PNG)
 
 

@@ -8,7 +8,7 @@ __bevat alle scripts die als webjob moeten draaien binnen de app service in Azur
 4. pushbericht.py : stuur om het uur een bericht met hoeveel plaatsen er momenteel vrij zijn per parking
 
 ## /websitecode
-__ArxusParking bevat alle python code die gepublished moet worden naar een app servcice in Azure__
+__ArxusParking bevat alle python code die gepublished moet worden naar een app service in Azure__
 1. Gemaakt in Django
 2. Inclusief Web Deployment scripts
 

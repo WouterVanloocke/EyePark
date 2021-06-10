@@ -121,7 +121,7 @@ Cython==0.29.6
 dask==1.1.5
 decorator==4.4.0
 defusedxml==0.5.0
-Django==2.1.11
+Django==2.2.24
 django-pyodbc-azure==2.1.0.0
 docutils==0.14
 entrypoints==0.3
